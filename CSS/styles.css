@@ -3,3 +3,18 @@
     height:90px;
     padding-top: 30px;
 }
+
+.main-body{
+    background-color: #399D9A;
+    height:100%;
+}
+
+html,
+body{
+    height: 100%;
+    width: 100%;
+}
+
+.card-title{
+    padding-top: 10px;
+}
