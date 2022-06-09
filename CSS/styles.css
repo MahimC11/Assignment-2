@@ -115,3 +115,15 @@ body {
   color: #fff;
   font-size: 18px;
 }
+a{
+  text-decoration: none;
+  color:#fff;
+}
+
+.play-now{
+  background-color: #106cfc;
+}
+
+button:hover{
+  transform:scale(1.10);
+}
