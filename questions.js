@@ -1,92 +1,138 @@
-// code by webdevtrick (https://webdevtrick.com)
-function Quiz(questions) {
-    this.score = 0;
-    this.questions = questions;
-    this.questionIndex = 0;
-}
- 
-Quiz.prototype.getQuestionIndex = function() {
-    return this.questions[this.questionIndex];
-}
- 
-Quiz.prototype.guess = function(answer) {
-    if(this.getQuestionIndex().isCorrectAnswer(answer)) {
-        this.score++;
-    }
- 
-    this.questionIndex++;
-}
- 
-Quiz.prototype.isEnded = function() {
-    return this.questionIndex === this.questions.length;
-}
- 
- 
-function Question(text, choices, answer) {
-    this.text = text;
-    this.choices = choices;
-    this.answer = answer;
-}
- 
-Question.prototype.isCorrectAnswer = function(choice) {
-    return this.answer === choice;
-}
- 
- 
-function populate() {
-    if(quiz.isEnded()) {
-        showScores();
-    }
-    else {
-        // show question
-        var element = document.getElementById("question");
-        element.innerHTML = quiz.getQuestionIndex().text;
- 
-        // show options
-        var choices = quiz.getQuestionIndex().choices;
-        for(var i = 0; i < choices.length; i++) {
-            var element = document.getElementById("choice" + i);
-            element.innerHTML = choices[i];
-            guess("btn" + i, choices[i]);
-        }
- 
-        showProgress();
-    }
-};
- 
-function guess(id, guess) {
-    var button = document.getElementById(id);
-    button.onclick = function() {
-        quiz.guess(guess);
-        populate();
-    }
-};
- 
- 
-function showProgress() {
-    var currentQuestionNumber = quiz.questionIndex + 1;
-    var element = document.getElementById("progress");
-    element.innerHTML = "Question " + currentQuestionNumber + " of " + quiz.questions.length;
-};
- 
-function showScores() {
-    var gameOverHTML = "<h1>Result</h1>";
-    gameOverHTML += "<h2 id='score'> Your scores: " + quiz.score + "</h2>";
-    var element = document.getElementById("quiz");
-    element.innerHTML = gameOverHTML;
-};
- 
-// create questions here
-var questions = [
-    new Question("When did the pixar movie 'Cars' come out?", ["2006", "2007","2008", "2009"], "2006"),
-    new Question("How many planets in the solar system?", ["6", "7", "8", "9"], "8"),
-    new Question("How many countries are there?", ["194", "195","196", "197"], "195"),
-    new Question("How long is an olympic swimming pool?", ["50M", "60M", "70M", "80M"], "50M"),
-    new Question("When did the cold war end?", ["1988", "1989", "1990", "1991"], "1989")
+/*Variables*/
+const quiz= document.getElementById('quiz')
+const questionEl = document.getElementById('question')
+const answerEls = document.querySelectorAll('.answer')
+const a_text = document.getElementById('a_text')
+const b_text = document.getElementById('b_text')
+const c_text = document.getElementById('c_text')
+const d_text = document.getElementById('d_text')
+const submitBtn = document.getElementById('submit')
+const previousBtn = document.getElementById('previous')
+
+let currentQuiz = 0
+let score = 0
+
+/*Stores The Questions*/ 
+const quizInfo = [
+    {
+        question: "When did the pixar movie 'Cars' come out?",
+        a: "2006",
+        b: "2007",
+        c: "2008",
+        d: "2009",
+        correct: "a",
+    },
+    {
+        question: "How Many planets in the solar system?",
+        a: "6",
+        b: "7",
+        c: "8",
+        d: "9",
+        correct: "c",
+    },
+    {
+        question: "How many countries are there?",
+        a: "194",
+        b: "195",
+        c: "196",
+        d: "197",
+        correct: "b",
+    },
+    {
+        question: "How long is an olympic swimming pool?",
+        a: "50M",
+        b: "60M",
+        c: "70M",
+        d: "80M",
+        correct: "a",
+    },
+    {
+        question: "When did the cold war end?",
+        a: "1988",
+        b: "1989",
+        c: "1990",
+        d: "1991",
+        correct: "b",
+    },
+
+
 ];
- 
-// create quiz
-var quiz = new Quiz(questions);
- 
-// display quiz
-populate();
+
+/*This creates the Quiz */ 
+
+loadQuiz()  
+
+function loadQuiz() {
+
+    deselectAnswers()
+
+    const currentQuizInfo = quizInfo[currentQuiz]
+
+    questionEl.innerText = currentQuizInfo.question
+    a_text.innerText = currentQuizInfo.a
+    b_text.innerText = currentQuizInfo.b
+    c_text.innerText = currentQuizInfo.c
+    d_text.innerText = currentQuizInfo.d
+}
+
+function deselectAnswers() {
+    answerEls.forEach(answerEl => answerEl.checked = false) /*Makes sure no answer is selected by default */
+}
+
+/*Tracks which answer was selected */
+
+function getSelected() {
+    let answer
+    answerEls.forEach(answerEl => {
+        if(answerEl.checked) {
+
+            answer = answerEl.id
+        }
+    })
+    return answer
+}
+
+/*Checks to see if the selected answers are the correct ones and shows how many you answered correctly*/
+
+submitBtn.addEventListener('click', () => {
+    const answer = getSelected()
+    if(answer) {
+
+       if(answer === quizInfo[currentQuiz].correct) {
+
+           score++
+       }
+
+       currentQuiz++
+
+       if(currentQuiz < quizInfo.length) {
+
+           loadQuiz()
+       } else {
+           
+           quiz.innerHTML = `
+           <h2>You answered ${score}/${quizInfo.length} questions correctly</h2>
+            <br>
+           <button onclick="location.reload()">Reload</button>
+           `
+       }
+    }
+})
+
+previousBtn.addEventListener('click', () => {
+    const answer = getSelected()
+
+       currentQuiz--
+
+       if(currentQuiz < quizInfo.length) {
+
+           loadQuiz()
+       } else {
+           
+           quiz.innerHTML = `
+           <h2>You answered ${score}/${quizInfo.length} questions correctly</h2>
+
+           <button onclick="location.reload()">Reload</button>
+           `
+       }
+    })

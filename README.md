@@ -14,6 +14,9 @@ This website will be mainly used by people who would like to do a quiz.
 
 ### quiz.html
 - This page is where the actual quiz is hosted and uses a script made with Javascript.
+- Has the questions and the selection of answers to pick from.
+- Has a previous and next button to go back and forth between the queestions.
+- Will show you a score once you have completed the quiz.
 
 ### Upcoming Features
 - A new feature that could be added may be a review section for the quiz that allows you to see which questions you have answered correctly and which answeres you answered incorrectly.
@@ -38,10 +41,9 @@ This website will be mainly used by people who would like to do a quiz.
 ### quiz.html
 - The navbar works properly
 - The Quiz is fully functional with no issues.
-- Once a button is pressed on the quiz, it will stay resized for the next question. (This can be fixed by resizing the button once pressed.)
 
 ### Other testing notes
-- The button issue on the quiz which caused the buttons to be oversized on mobile has now been fixed.
+-N/A
 
 ## Deployment
 
